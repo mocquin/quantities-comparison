@@ -1,14 +1,16 @@
 import benchmarks.bench_astropy
-import benchmarks.bench_dimensions
-import benchmarks.bench_dimpy
-import benchmarks.bench_magnitude
-import benchmarks.bench_numericalunits
-import benchmarks.bench_physical_quantities
+#import benchmarks.bench_dimensions
+#import benchmarks.bench_dimpy
+#import benchmarks.bench_magnitude
+#import benchmarks.bench_numericalunits
+#import benchmarks.bench_physical_quantities
 import benchmarks.bench_pint
-import benchmarks.bench_piquant
-import benchmarks.bench_quantities
-import benchmarks.bench_scimath
-import benchmarks.bench_unum
+import benchmarks.bench_physipy
+import benchmarks.bench_forallpeople
+#import benchmarks.bench_piquant
+#import benchmarks.bench_quantities
+#import benchmarks.bench_scimath
+#import benchmarks.bench_unum
 import benchmarks as bm
 
 from pprint import pprint
@@ -22,22 +24,24 @@ warnings.simplefilter('ignore')
 np.seterr(all='ignore')
 
 CLASSES = (bm.bench_astropy.BenchAstropy,
-           bm.bench_dimensions.BenchDimensions,
-           bm.bench_dimpy.BenchDimpy,
-           bm.bench_magnitude.BenchMagnitude,
-           bm.bench_numericalunits.BenchNumericalunits,
-           bm.bench_physical_quantities.BenchPhysicalQuantities,
+           #bm.bench_dimensions.BenchDimensions,
+           #bm.bench_dimpy.BenchDimpy,
+           #bm.bench_magnitude.BenchMagnitude,
+           #bm.bench_numericalunits.BenchNumericalunits,
+           #bm.bench_physical_quantities.BenchPhysicalQuantities,
            bm.bench_pint.BenchPint,
-           bm.bench_piquant.BenchPiquant,
-           bm.bench_quantities.BenchQuantities,
-           bm.bench_scimath.BenchScimath,
-           bm.bench_unum.BenchUnum,
+           bm.bench_physipy.BenchPhysipy,
+           bm.bench_forallpeople.BenchForallpeople,
+           #bm.bench_piquant.BenchPiquant,
+           #bm.bench_quantities.BenchQuantities,
+           #bm.bench_scimath.BenchScimath,
+           #bm.bench_unum.BenchUnum,
            )
 
 
 def run_comparisons(classes=CLASSES):
     for cls in classes:
-        print cls.__name__
+        print(cls.__name__)
         yield bm.base.bench(cls)
 
 
@@ -84,15 +88,26 @@ def process_pandas(res):
     facts = pd.DataFrame.from_dict(facts, orient='index')
     syntax = pd.DataFrame.from_dict(syntax, orient='index')
 
-    facts = facts.sort(axis=0).sort(axis=1)
-    syntax = syntax.sort(axis=0).sort(axis=1)
+    def color_green_true_red_false(val):
+        """
+        Takes a scalar and returns a string with
+        the css property `'color: red'` for negative
+        strings, black otherwise.
+        """
+        color = 'green' if val else 'red'
+        return 'color: %s' % color
+
+    
+    #facts = facts.sort_values(axis=0).sort(axis=1)
+    #syntax = syntax.sort_values(axis=0).sort(axis=1)
 
     for key, value in speed.items():
         value = pd.DataFrame.from_dict(value, orient='columns')
-        speed[key] = value.sort(axis=0).sort(axis=1)
+        speed[key] = value#.sort(axis=0).sort(axis=1)
     for key, value in compatibility.items():
         value = pd.DataFrame.from_dict(value, orient='index')
-        compatibility[key] = value.sort(axis=0).sort(axis=1)
+        value = value.style.applymap(color_green_true_red_false)
+        compatibility[key] = value#.sort(axis=0).sort(axis=1)
 
     resdict = {'facts': facts,
                'syntax': syntax,

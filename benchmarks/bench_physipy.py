@@ -1,33 +1,34 @@
 import numpy as np
-import pint
+import physipy
 
 from . import base
 
 
-class BenchPint(base.BenchModule):
+class BenchPhysipy(base.BenchModule):
     facts = {
-        'LOC': 2914,
-        'First release': '2012-07',
-        'Most recent release': '2014-02',
-        'Implementation': 'Container',
-        'URL': 'https://pint.readthedocs.org/en/latest/',
-        'PyPI': 'pint',
+        'LOC': 0,
+        'First release': '20XX-XX',
+        'Most recent release': '20XX-XX',
+        'Implementation': 'Container?',
+        'URL': '',
+        'PyPI': 'physipy',
     }
 
     def __init__(self, np_obj):
-        self.unitreg = pint.UnitRegistry()
+        self.units = physipy.units
+        self.units["ft"] = physipy.imperial_units["ft"]
         base.BenchModule.__init__(self, np_obj)
 
     @property
     def name(self):
-        return pint.__name__
+        return physipy.__name__
 
     @property
     def make_syntax(self):
         return "multiply"
 
     def make(self, ndarray, units):
-        return ndarray * getattr(self.unitreg, units)
+        return ndarray * self.units[units]
 
 
 if __name__ == '__main__':

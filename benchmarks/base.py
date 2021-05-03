@@ -39,7 +39,7 @@ class BenchNumpy(object):
 
         self.unary_ops = [op.abs, op.neg, op.pos]
         self.binary_ops = [op.add, op.sub, op.mul,
-                           op.div, op.floordiv, op.truediv,
+                           op.floordiv, op.floordiv, op.truediv,
                            op.mod, op.pow,
                            op.lt, op.le, op.eq, op.ne, op.ge, op.gt]
 
@@ -92,7 +92,7 @@ class BenchNumpy(object):
             time.sort()
             time = np.asarray(time[2:-2])
 
-        print "{:.3f} +/- {:.2f} ms".format(np.mean(time), np.std(time))
+        print("{:.3f} +/- {:.2f} ms".format(np.mean(time), np.std(time)))
         return time
 
 
@@ -268,7 +268,7 @@ class BenchModule(object):
                     return -1, -1, -1
                 if time[-1] > timeout:
                     if verbose:
-                        print "{}.{} timed out".format(self.name, func.__name__)
+                        print("{}.{} timed out".format(self.name, func.__name__))
                     return 20.0, 20.0, 20.0
 
         # Get rid of the top and bottom 2
@@ -283,8 +283,8 @@ class BenchModule(object):
         np_rel = np.sum(time) / np.sum(np_time)
 
         if verbose:
-            print "{}.{}: {:.3f} +/- {:.2f} ms, {:.2f}x numpy".format(
-                self.name, func.__name__, mean, std, np_rel)
+            print("{}.{}: {:.3f} +/- {:.2f} ms, {:.2f}x numpy".format(
+                self.name, func.__name__, mean, std, np_rel))
 
         return mean, std, min(np_rel, 20.0)
 
@@ -320,7 +320,7 @@ class BenchModule(object):
     def syntax(self, verbose=False):
         q = self.make(5.0, 'm')
         if verbose:
-            print q
+            print(q)
         return {
             'make': self.make_syntax,
             'print': str(q)
@@ -356,8 +356,8 @@ class BenchModule(object):
             if verbose:
                 self_n = len(getattr(self, attr))
                 np_n = len(getattr(self.np_obj, np_attr))
-                print "{}: {} / {} ({:.1%}".format(
-                    attr, self_n, np_n, float(self_n) / np_n)
+                print("{}: {} / {} ({:.1%}".format(
+                    attr, self_n, np_n, float(self_n) / np_n))
 
             res[attr] = {f.__name__: (f in getattr(self, attr))
                          for f in getattr(self.np_obj, np_attr)}

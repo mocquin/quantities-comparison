@@ -2,7 +2,7 @@ import numpy as np
 import astropy.units
 import astropy.units.imperial
 
-import base
+from . import base
 
 
 class BenchAstropy(base.BenchModule):
