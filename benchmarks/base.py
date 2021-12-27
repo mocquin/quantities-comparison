@@ -6,6 +6,8 @@ import numpy as np
 
 
 class Timer(object):
+    """Context to compute time.
+    """
     def __enter__(self):
         self.start = time.time()
         return self
@@ -17,6 +19,8 @@ class Timer(object):
 
 
 def time_unary(ndarrays, funcs):
+    """Compute time to apply all funcs to all
+    ndarrays."""
     with Timer() as t:
         for func in funcs:
             for nda in ndarrays:
@@ -25,6 +29,8 @@ def time_unary(ndarrays, funcs):
 
 
 def time_binary(left, right, funcs):
+    """Compute to apply all funcs to all
+    left-right couples."""
     with Timer() as t:
         for func in funcs:
             for l in left:
@@ -37,6 +43,7 @@ class BenchNumpy(object):
     def __init__(self, dtype=np.float64):
         self.dtype = dtype
 
+        # unary operators
         self.unary_ops = [op.abs, op.neg, op.pos]
         self.binary_ops = [op.add, op.sub, op.mul,
                            op.floordiv, op.floordiv, op.truediv,
@@ -73,6 +80,12 @@ class BenchNumpy(object):
         return (10 * np.random.rand(*shape)).astype(self.dtype, copy=False)
 
     def time(self, n=100):
+        """
+        Actual bencher : for n repeatition :
+            compute the total time to apply all unary_ops, all
+            unary_ufuncs, all binary_ops, and all binary_ufuncs
+        Remove the 2 best and worst repeatition
+        """
         shapes = [(10,), (1000,), (100, 100)]
         time = []
         for i in range(n):
