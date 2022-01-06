@@ -31,7 +31,7 @@ CLASSES = (bm.bench_astropy.BenchAstropy,
            #bm.bench_physical_quantities.BenchPhysicalQuantities,
            bm.bench_pint.BenchPint,
            bm.bench_physipy.BenchPhysipy,
-           bm.bench_forallpeople.BenchForallpeople,
+           #bm.bench_forallpeople.BenchForallpeople,
            #bm.bench_piquant.BenchPiquant,
            #bm.bench_quantities.BenchQuantities,
            #bm.bench_scimath.BenchScimath,
@@ -39,7 +39,11 @@ CLASSES = (bm.bench_astropy.BenchAstropy,
            )
 
 
+
 def run_comparisons(classes=CLASSES):
+    """
+    Return generator for benchmarking the packages.
+    """
     for cls in classes:
         print(cls.__name__)
         yield bm.base.bench(cls)
@@ -101,6 +105,7 @@ def process_pandas(res):
     #facts = facts.sort_values(axis=0).sort(axis=1)
     #syntax = syntax.sort_values(axis=0).sort(axis=1)
 
+    # speed and compatibility are dicts of DataFrames
     for key, value in speed.items():
         value = pd.DataFrame.from_dict(value, orient='columns')
         speed[key] = value#.sort(axis=0).sort(axis=1)
@@ -111,13 +116,17 @@ def process_pandas(res):
 
     resdict = {'facts': facts,
                'syntax': syntax,
-               'speed': speed,
-               'compatibility': compatibility}
+               'speed': speed,                 # dict of df
+               'compatibility': compatibility, # dict of df
+              }
 
     return resdict
 
 
 def get_pandas(classes=CLASSES):
+    """
+    Main interface : use only this.
+    """
     res = run_comparisons(classes)
     return process_pandas(res)
 
