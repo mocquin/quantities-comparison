@@ -4,7 +4,7 @@ import physipy
 from . import base
 
 
-class BenchPhysipy(base.BenchModule):
+class BenchPhysipy(base.NewBenchModule):
     facts = {
         'LOC': 0,
         'First release': '20XX-XX',
@@ -14,10 +14,10 @@ class BenchPhysipy(base.BenchModule):
         'PyPI': 'physipy',
     }
 
-    def __init__(self, np_obj):
+    def __init__(self):
         self.units = physipy.units
         self.units["ft"] = physipy.imperial_units["ft"]
-        base.BenchModule.__init__(self, np_obj)
+        super().__init__()
 
     @property
     def name(self):

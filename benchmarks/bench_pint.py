@@ -4,7 +4,7 @@ import pint
 from . import base
 
 
-class BenchPint(base.BenchModule):
+class BenchPint(base.NewBenchModule):
     facts = {
         'LOC': 2914,
         'First release': '2012-07',
@@ -14,10 +14,14 @@ class BenchPint(base.BenchModule):
         'PyPI': 'pint',
     }
 
-    def __init__(self, np_obj):
+    def __init__(self, ):
         self.unitreg = pint.UnitRegistry()
-        base.BenchModule.__init__(self, np_obj)
-
+        self.m = self.unitreg.m
+        self.s = self.unitreg.s
+        self.J = self.unitreg.J
+        
+        super().__init__()
+        
     @property
     def name(self):
         return pint.__name__

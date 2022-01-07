@@ -5,7 +5,7 @@ import astropy.units.imperial
 from . import base
 
 
-class BenchAstropy(base.BenchModule):
+class BenchAstropy(base.NewBenchModule):
     facts = {
         'LOC': 3448,
         'First release': '2013-01',
@@ -15,6 +15,12 @@ class BenchAstropy(base.BenchModule):
         'PyPI': 'astropy',
     }
 
+    def __init__(self):
+        self.m = astropy.units.m
+        self.s = astropy.units.s
+        self.J = astropy.units.J
+        
+    
     @property
     def name(self):
         return astropy.units.__name__
