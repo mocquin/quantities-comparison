@@ -35,4 +35,4 @@ if __name__ == '__main__':
     import warnings
     warnings.simplefilter('ignore')
     np.seterr(all='ignore')
-    base.bench(BenchPint)
+    base.bench(BenchPhysipy)
